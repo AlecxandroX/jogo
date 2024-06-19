@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Extensões de Arquivos do professor Alecx</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        p {
+            color: #bbbbbb;
+            margin-bottom: 30px;
+        }
+
+        .quiz-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .descriptions, .extensions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 45%;
+            margin-bottom: 20px;
+        }
+
+        .description, .extension {
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background-color: #2c2c2c;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+            user-select: none;
+        }
+
+        .description {
+            background-color: #333;
+            border-style: dashed;
+        }
+
+        .extension:hover {
+            background-color: #444;
+            border-color: #555;
+        }
+
+        .description:hover {
+            border-color: #555;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .dragging {
+            opacity: 0.5;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .descriptions, .extensions {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo de Extensões de Arquivos do professor Alecx</h1>
+        <p>Arraste e solte a extensão correta na descrição apropriada.</p>
+        <div class="quiz-container">
+            <div class="descriptions">
+                <div class="description" data-extension=".html">Arquivo HTML</div>
+                <div class="description" data-extension=".css">Arquivo CSS</div>
+                <div class="description" data-extension=".js">Arquivo JavaScript</div>
+                <div class="description" data-extension=".jpg">Imagem JPEG</div>
+                <div class="description" data-extension=".png">Imagem PNG</div>
+                <div class="description" data-extension=".pdf">Documento PDF</div>
+                <div class="description" data-extension=".docx">Documento Word</div>
+                <div class="description" data-extension=".xlsx">Planilha Excel</div>
+                <div class="description" data-extension=".mp3">Arquivo de Áudio MP3</div>
+                <div class="description" data-extension=".mp4">Arquivo de Vídeo MP4</div>
+                <div class="description" data-extension=".zip">Arquivo Compactado ZIP</div>
+                <div class="description" data-extension=".exe">Arquivo Executável</div>
+                <div class="description" data-extension=".json">Arquivo JSON</div>
+                <div class="description" data-extension=".xml">Arquivo XML</div>
+                <div class="description" data-extension=".csv">Arquivo CSV</div>
+            </div>
+            <div class="extensions">
+                <div class="extension" draggable="true">.js</div>
+                <div class="extension" draggable="true">.css</div>
+                <div class="extension" draggable="true">.jpg</div>
+                <div class="extension" draggable="true">.html</div>
+                <div class="extension" draggable="true">.png</div>
+                <div class="extension" draggable="true">.pdf</div>
+                <div class="extension" draggable="true">.docx</div>
+                <div class="extension" draggable="true">.xlsx</div>
+                <div class="extension" draggable="true">.mp3</div>
+                <div class="extension" draggable="true">.mp4</div>
+                <div class="extension" draggable="true">.zip</div>
+                <div class="extension" draggable="true">.exe</div>
+                <div class="extension" draggable="true">.json</div>
+                <div class="extension" draggable="true">.xml</div>
+                <div class="extension" draggable="true">.csv</div>
+            </div>
+        </div>
+        <button id="check">Verificar</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const extensions = document.querySelectorAll('.extension');
+            const descriptions = document.querySelectorAll('.description');
+            let draggedItem = null;
+
+            extensions.forEach(extension => {
+                extension.addEventListener('dragstart', (e) => {
+                    draggedItem = e.target;
+                    setTimeout(() => {
+                        draggedItem.classList.add('dragging');
+                    }, 0);
+                });
+
+                extension.addEventListener('dragend', () => {
+                    setTimeout(() => {
+                        draggedItem.classList.remove('dragging');
+                        draggedItem = null;
+                    }, 0);
+                });
+            });
+
+            descriptions.forEach(description => {
+                description.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+
+                description.addEventListener('dragenter', (e) => {
+                    e.preventDefault();
+                });
+
+                description.addEventListener('drop', (e) => {
+                    if (draggedItem) {
+                        description.appendChild(draggedItem);
+                    }
+                });
+            });
+
+            document.getElementById('check').addEventListener('click', () => {
+                let correct = 0;
+                descriptions.forEach(description => {
+                    const extension = description.querySelector('.extension');
+                    if (extension && extension.textContent === description.getAttribute('data-extension')) {
+                        correct++;
+                    }
+                });
+
+                const result = document.getElementById('result');
+                if (correct === descriptions.length) {
+                    result.textContent = 'Parabéns! Todas as respostas estão corretas!';
+                    result.style.color = 'green';
+                } else {
+                    result.textContent = `Você acertou ${correct} de ${descriptions.length} respostas. Tente novamente.`;
+                    result.style.color = 'red';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
